@@ -19,12 +19,13 @@ public class Launcher {
             }
         }
         else {
-            System.out.println("Usage:\tLauncher\t\t<port>");
+            System.out.println("Usage:\tLauncher\t<port>");
             return;
         }
 
         // starting server
         System.out.println("Starting server on port " + port + "...");
         HttpDaemon server = new HttpDaemon(port);
+        server.start();
     }
 }

@@ -1,11 +1,10 @@
 package fr.lernejo.server;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import fr.lernejo.server.handler.StartHandler;
+import fr.lernejo.server.handler.CallHandler;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 
@@ -17,8 +16,12 @@ public class HttpDaemon {
 
         // contexts
         this.server.createContext("/ping", new CallHandler());
+        this.server.createContext("/api/game/start", new StartHandler());
 
         this.server.setExecutor(Executors.newFixedThreadPool(1));
+    }
+
+    public void start() {
         this.server.start();
     }
 }
