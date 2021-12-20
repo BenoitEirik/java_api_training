@@ -5,14 +5,12 @@ import com.sun.net.httpserver.HttpExchange;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
 import org.everit.json.schema.loader.SchemaLoader;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.UUID;
 
 
 public class FireHandler implements HandlerInterface {
@@ -45,7 +43,7 @@ public class FireHandler implements HandlerInterface {
         if (parameters == null) {
             verbError(exchange);
         }
-        String cell = parameters.split("=")[1];     // TODO: do something
+        // String cell = parameters.split("=")[1];     // TODO: do something
 
         // create the response
         String consequence = "sunk";    // TODO: dynamically change sunk
