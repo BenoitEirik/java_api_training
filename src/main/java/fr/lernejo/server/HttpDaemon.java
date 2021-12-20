@@ -3,6 +3,7 @@ package fr.lernejo.server;
 import com.sun.net.httpserver.HttpServer;
 import fr.lernejo.server.handler.StartHandler;
 import fr.lernejo.server.handler.CallHandler;
+import fr.lernejo.server.handler.FireHandler;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -17,6 +18,7 @@ public class HttpDaemon {
         // contexts
         this.server.createContext("/ping", new CallHandler());
         this.server.createContext("/api/game/start", new StartHandler());
+        this.server.createContext("/api/game/fire", new FireHandler());
 
         this.server.setExecutor(Executors.newFixedThreadPool(1));
     }
