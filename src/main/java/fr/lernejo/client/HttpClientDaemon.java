@@ -9,11 +9,11 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 
 public class HttpClientDaemon {
-    int port;
-    String server_address;
-    int server_port;
+    final int port;
+    final String server_address;
+    final int server_port;
 
-    HttpClient client;
+    final HttpClient client;
 
     public HttpClientDaemon(int port, String server_address, int server_port) {
         this.port = port;

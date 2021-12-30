@@ -19,9 +19,7 @@ public class FireHandler implements HandlerInterface {
         String requestMethod = exchange.getRequestMethod();
         String URI = exchange.getRequestURI().toString();
         int code = exchange.getResponseCode();
-
         System.out.println("["+requestMethod+"]\t"+URI+" ("+code+")");
-
         switch (requestMethod) {
             case "GET":
                 get(exchange);
@@ -43,30 +41,8 @@ public class FireHandler implements HandlerInterface {
         if (parameters == null) {
             verbError(exchange);
         }
-        // String cell = parameters.split("=")[1];     // TODO: do something
 
-        // create the response
-        String consequence = "sunk";    // TODO: dynamically change sunk
-        boolean shipLeft = true;        // TODO: dynamically change ship left
-        JSONObject jso = new JSONObject();
-        jso.put("consequence", consequence);
-        jso.put("shipLeft", shipLeft);
-
-        // check the json schema
-        try (InputStream inputStream = getClass().getResourceAsStream("./cell.json")) {
-            JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
-            Schema schema = SchemaLoader.load(rawSchema);
-            schema.validate(jso);
-        }
-        catch (ValidationException jse) {
-            this.verbError(exchange);
-        }
-
-        // send the response
-        exchange.sendResponseHeaders(200, jso.toString().length());
-        try (OutputStream os = exchange.getResponseBody()) {
-            os.write(jso.toString().getBytes());
-        }
+        getResponse(exchange);
     }
 
     @Override
@@ -74,5 +50,32 @@ public class FireHandler implements HandlerInterface {
         System.out.println("Error 404");
         exchange.sendResponseHeaders(404, 0);
         exchange.getResponseBody().close();
+    }
+
+    public void getResponse(HttpExchange exchange) throws IOException {
+        // String cell = parameters.split("=")[1];     // TODO: do something
+        String consequence = "sunk";    // TODO: dynamically change sunk
+        boolean shipLeft = true;        // TODO: dynamically change ship left
+        JSONObject jso = new JSONObject();
+        jso.put("consequence", consequence);
+        jso.put("shipLeft", shipLeft);
+        // checkJsonSchema(exchange, jso);
+        exchange.sendResponseHeaders(200, jso.toString().length());
+        System.out.println("test:" + jso.toString());
+        try (OutputStream os = exchange.getResponseBody()) {
+            os.write(jso.toString().getBytes());
+        }
+    }
+
+    public void checkJsonSchema(HttpExchange exchange, JSONObject jso) throws IOException {
+        try {
+            InputStream inputStream = getClass().getResourceAsStream("./schemas/cell.json");
+            JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
+            Schema schema = SchemaLoader.load(rawSchema);
+            schema.validate(jso);
+        }
+        catch (ValidationException jse) {
+            this.verbError(exchange);
+        }
     }
 }

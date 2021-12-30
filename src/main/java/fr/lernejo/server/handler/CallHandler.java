@@ -11,9 +11,7 @@ public class CallHandler implements HandlerInterface {
         String requestMethod = exchange.getRequestMethod();
         String URI = exchange.getRequestURI().toString();
         int code = exchange.getResponseCode();
-
         System.out.println("["+requestMethod+"]\t"+URI+" ("+code+")");
-
         switch (requestMethod) {
             case "GET":
                 get(exchange);
